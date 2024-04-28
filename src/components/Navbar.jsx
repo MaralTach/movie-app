@@ -2,26 +2,39 @@ import { Fragment } from "react";
 import { Disclosure, Menu, Transition } from "@headlessui/react";
 import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import { Link, useNavigate } from "react-router-dom";
+import Switch from "./Switch";
+import avatar from "../assets/avataaars.png";
+import { useAuthContext } from "../context/AuthContext";
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
-const navigation = [
-  { name: "Home", to: "/", current: true },
-  { name: "Search", to: "/search", current: false },
-  { name: "Movies", to: "/movies", current: false },
-  { name: "Series",to: "/series", current: false },
-  { name: "About", to: "/about", current: false },
-  { name: "Contact", to: "/contact", current: false },
-];
+
+
+
+// const navigation = [
+//   { name: "Home", to: "/", current: true },
+//   { name: "Search", to: "/search", current: false },
+//   { name: "Movies", to: "/movies", current: false },
+//   { name: "Series",to: "/series", current: false },
+//   { name: "About", to: "/about", current: false },
+//   { name: "Contact", to: "/contact", current: false },
+// ];
 
 export default function Navbar() {
   const navigate = useNavigate();
+  // const currentUser={
+  //   displayName:"Maral"
+  // }
+
+   const {currentUser} =  useAuthContext();
 
   return (
+    <>
     <Disclosure
+
       as="nav"
-      className="bg-neutral-100 dark: bg-gray-900 py-3 dark:text-white fixed w-full top-0 z-20 "
+      className="bg-neutral-500 dark: bg-gray-900 py-3 dark:text-white fixed w-full top-0 z-20 "
     >
       <div className="mx-auto  px-2 sm:px-6 lg:px-8">
         <div className="relative flex h-16 items-center justify-between">
@@ -31,14 +44,13 @@ export default function Navbar() {
           <div className="absolute inset-y-0 left-0 flex items-center sm:hidden"></div>
           <div className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
             <div className="flex flex-shrink-0 items-center">
-              <img
-                className="h-8 w-auto"
-                src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=500"
-                alt="Your Company"
-              />
+              
             </div>
           </div>
           <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
+              {currentUser &&  <h5 className="mr-2 capitalize">{currentUser?.displayName}</h5>}
+              <Switch/>
+
             {/* Profile dropdown */}
             <Menu as="div" className="relative ml-3">
               <div>
@@ -47,8 +59,9 @@ export default function Navbar() {
                   <span className="sr-only">Open user menu</span>
                   <img
                     className="h-8 w-8 rounded-full"
-                    src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-                    alt=""
+                    src={currentUser?.photoURL || avatar}
+                    alt="user"
+                    referrerPolicy="no-referrer"
                   />
                 </Menu.Button>
               </div>
@@ -64,41 +77,41 @@ export default function Navbar() {
                 <Menu.Items className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
                   <Menu.Item>
                     {({ active }) => (
-                      <a
-                        href="#"
+                      <Link
+                        to="/register"
                         className={classNames(
                           active ? "bg-gray-100" : "",
                           "block px-4 py-2 text-sm text-gray-700"
                         )}
                       >
-                        Your Profile
-                      </a>
+                        Register
+                      </Link>
                     )}
                   </Menu.Item>
                   <Menu.Item>
                     {({ active }) => (
-                      <a
-                        href="#"
+                      <Link 
+                        to="/login"
                         className={classNames(
                           active ? "bg-gray-100" : "",
                           "block px-4 py-2 text-sm text-gray-700"
                         )}
                       >
-                        Settings
-                      </a>
+                        Login
+                      </Link>
                     )}
                   </Menu.Item>
                   <Menu.Item>
                     {({ active }) => (
-                      <a
-                        href="#"
+                      <span
+                        role="button"
                         className={classNames(
                           active ? "bg-gray-100" : "",
-                          "block px-4 py-2 text-sm text-gray-700"
+                          "block px-4 py-2 text-sm text-gray-700 cursor-pointer"
                         )}
                       >
                         Sign out
-                      </a>
+                      </span>
                     )}
                   </Menu.Item>
                 </Menu.Items>
@@ -108,5 +121,9 @@ export default function Navbar() {
         </div>
       </div>
     </Disclosure>
+    <div className="h-20">
+
+    </div>
+    </>
   );
 }
