@@ -2,6 +2,7 @@ import './App.css';
 import AuthProvider from './context/AuthContext';
 // import Register from './pages/Register';
 import AppRouter from './router/AppRouter';
+import { ToastContainer} from 'react-toastify';
 
 function App() {
   return (
@@ -9,6 +10,7 @@ function App() {
       <AuthProvider>
 
        <AppRouter/>
+       <ToastContainer/>
       </AuthProvider>
     </div>
   );

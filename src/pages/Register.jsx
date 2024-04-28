@@ -1,19 +1,28 @@
 import React from "react";
 import GoogleIcon from "../assets/GoogleIcon";
 import { useState } from "react";
+import { useAuthContext } from "../context/AuthContext";
 
 const Register = () => {
+  const [info, setInfo] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+    password: "",
+  });
 
-  const [info, setInfo] = useState({firstName:"",lastName:"",email:"",password:""})
- 
+  const { createUser } = useAuthContext();
   const handleChange = (e) => {
-    setInfo({...info,[e.target.name]:e.target.value})
-  }
+    setInfo({ ...info, [e.target.name]: e.target.value });
+  };
 
-  const handleSubmit =(e)=>{
-    e.preventDefault()
-    console.log(info)
-  }
+  const { email, password } = info;
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    createUser(email, password);
+    console.log(info);
+  };
 
   return (
     <div className="flex justify-center">
