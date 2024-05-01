@@ -1,6 +1,6 @@
 import { Fragment } from "react";
 import { Disclosure, Menu, Transition } from "@headlessui/react";
-import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/react/24/outline";
+// import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import { Link, useNavigate } from "react-router-dom";
 import Switch from "./Switch";
 import avatar from "../assets/avataaars.png";
@@ -22,7 +22,7 @@ function classNames(...classes) {
 // ];
 
 export default function Navbar() {
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   // const currentUser={
   //   displayName:"Maral"
   // }
