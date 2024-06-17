@@ -1,5 +1,5 @@
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from "firebase/auth";
-import React, { createContext, useContext } from "react";
+import { createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndPassword, signOut } from "firebase/auth";
+import React, { createContext, useContext, useEffect } from "react";
 import { useState } from "react";
 import { auth } from "../auth/firebase";
 import { useNavigate } from "react-router-dom";
@@ -16,6 +16,11 @@ const AuthProvider = ({ children }) => {
   const [currentUser, setCurrentUser] = useState(false);
 
   const navigate = useNavigate();
+
+  useEffect(() => {
+    userObserver();
+  }, [])
+  
 
   const createUser = async (email, password) => {
     try {
@@ -51,6 +56,20 @@ const AuthProvider = ({ children }) => {
         toastSuccessNotify("Logout Successful")
      })
      .catch((error) => toastErrorNotify(error.message))
+ }
+
+ const userObserver =()=>{
+  onAuthStateChanged(auth, (user) => {
+    if (user) {
+      // console.log('logged in')
+      const {email, displayName, photoURL} = user
+      setCurrentUser({email, displayName, photoURL})
+    } else {
+      // console.log('logged out')
+      setCurrentUser(false)
+    }
+  });
+  
  }
 
   const values = { currentUser,createUser, signIn,  logOut };
