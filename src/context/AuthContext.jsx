@@ -1,4 +1,4 @@
-import { createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndPassword, signOut, updateProfile } from "firebase/auth";
+import { GoogleAuthProvider, createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndPassword, signInWithPopup, signOut, updateProfile } from "firebase/auth";
 import React, { createContext, useContext, useEffect } from "react";
 import { useState } from "react";
 import { auth } from "../auth/firebase";
@@ -77,7 +77,22 @@ const AuthProvider = ({ children }) => {
   
  }
 
-  const values = { currentUser,createUser, signIn,  logOut };
+ const googleProvider=()=>{
+  const provider = new GoogleAuthProvider();
+  signInWithPopup(auth, provider)
+  .then((result) => {
+    navigate("/")
+    toastSuccessNotify("Sign In Successful")
+   
+  }).catch((error) => {
+    // Handle Errors here.
+    toastErrorNotify(error.message)
+    
+  });
+ }
+
+
+  const values = { currentUser,createUser, signIn,  logOut ,googleProvider};
   return <AuthContext.Provider value={values}>{children}</AuthContext.Provider>;
 };
 
