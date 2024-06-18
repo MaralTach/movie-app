@@ -1,4 +1,4 @@
-import { createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndPassword, signOut } from "firebase/auth";
+import { createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndPassword, signOut, updateProfile } from "firebase/auth";
 import React, { createContext, useContext, useEffect } from "react";
 import { useState } from "react";
 import { auth } from "../auth/firebase";
@@ -22,12 +22,17 @@ const AuthProvider = ({ children }) => {
   }, [])
   
 
-  const createUser = async (email, password) => {
+  const createUser = async (email, password, displayName) => {
     try {
       const userCredential = await createUserWithEmailAndPassword(
         auth, 
         email, 
         password);
+
+
+    await updateProfile(auth.currentUser, {
+      displayName
+    })
 
     navigate("/login")
     toastSuccessNotify("Sign Up Successful")
