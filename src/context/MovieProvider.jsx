@@ -14,9 +14,9 @@ const MovieProvider = ({ children }) => {
 const [movies, setMovies] = useState([])
 const [loading, setLoading] = useState(false)
 
-const getMovies = ()=>{
-    axios.get(FEATURED_API).then(res=)
-}
+// const getMovies = ()=>{
+//     axios.get(FEATURED_API).then(res=)
+// }
 
   return (
     <MovieContext.Provider value={null}>
