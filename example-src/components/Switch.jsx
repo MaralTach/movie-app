@@ -1,11 +1,9 @@
 import { MoonIcon, SunIcon } from "@heroicons/react/24/outline";
 import React, { useState } from "react";
-
 const Switch = () => {
   const [darkMode, setDarkMode] = useState(
     localStorage.getItem("darkMode") || false
   );
-
   if (darkMode) {
     document.documentElement.classList.add("dark");
     localStorage.setItem("darkMode", true);
@@ -13,7 +11,6 @@ const Switch = () => {
     document.documentElement.classList.remove("dark");
     localStorage.removeItem("darkMode");
   }
-
   return (
     <div className="flex col-span-1 justify-end">
       <button
@@ -31,5 +28,4 @@ const Switch = () => {
     </div>
   );
 };
-
 export default Switch;

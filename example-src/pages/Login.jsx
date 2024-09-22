@@ -1,59 +1,35 @@
 import React, { useState } from "react";
-import GoogleIcon from "../assets/icons/GoogleIcon";
-import { useAuthContext } from "../context/AuthProvider";
+import GoogleIcon from "../assets/GoogleIcon";
+import { useAuthContext } from "../context/AuthContext";
+import { Link } from "react-router-dom";
 
-const Register = () => {
+const Login = () => {
   //* birleştirilmiş state
   const [info, setInfo] = useState({
-    firstName: "",
-    lastName: "",
     email: "",
     password: "",
   });
 
-  const { createUser, googleProvider } = useAuthContext();
+  const { signIn, googleProvider, forgotPassword } = useAuthContext();
 
   const handleChange = (e) =>
     setInfo({ ...info, [e.target.name]: e.target.value });
 
-  const { email, password, firstName, lastName } = info;
+  const { email, password } = info;
   const handlesubmit = (e) => {
     e.preventDefault();
-    const displayName = `${firstName} ${lastName}`;
-    createUser(email, password, displayName);
-    console.log(info);
+    signIn(email, password);
   };
 
   return (
     <div className="flex justify-center">
       <div className="overflow-hidden flex-1 h-screen justify-center items-center dark:bg-gray-dark-main">
-        <div className={`form-container mt-[5vh] w-[380px] h-[580px] `}>
+        <div className={`form-container mt-[5vh] w-[380px] h-[500px] `}>
           <form onSubmit={handlesubmit}>
             <h2 className="text-red-main text-2xl font-[500] text-center tracking-[0.1em] mb-3">
-              Sign Up
+              Sign In
             </h2>
-            <div className="relative z-0 w-full mb-6 group">
-              <input
-                name="firstName"
-                className="peer"
-                type="text"
-                required
-                placeholder=" "
-                onChange={handleChange}
-              />
-              <label htmlFor="floating_text">First Name</label>
-            </div>
-            <div className="relative z-0 w-full mb-6 group">
-              <input
-                name="lastName"
-                className="peer"
-                type="text"
-                required
-                placeholder=" "
-                onChange={handleChange}
-              />
-              <label htmlFor="floating_text">Last Name</label>
-            </div>
+
             <div className="relative z-0 w-full mb-6 group">
               <input
                 name="email"
@@ -76,8 +52,22 @@ const Register = () => {
               />
               <label htmlFor="floating_password">Password</label>
             </div>
+            <div className="flex justify-between">
+              <span
+                onClick={() => forgotPassword(email)}
+                className="py-3 font-[0.75em] cursor-pointer decoration-none text-gray-500 hover:text-[#ff4b45]"
+              >
+                Forgot Password
+              </span>
+              <Link
+                className="py-3 font-[0.75em] cursor-pointer decoration-none text-gray-500 hover:text-[#ff4b45]"
+                to="/register"
+              >
+                Sign Up
+              </Link>
+            </div>
             <button className="btn-danger" type="submit">
-              Register
+              Login
             </button>
             <button
               className="flex justify-between text-center items-center btn-danger"
@@ -94,4 +84,4 @@ const Register = () => {
   );
 };
 
-export default Register;
+export default Login;
